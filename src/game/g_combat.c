@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // g_combat.c
 
 #include "g_local.h"
+#include "oquake2rtx_ogengine_integration.h"
 
 /*
 ============
@@ -100,6 +101,7 @@ void Killed(edict_t *targ, edict_t *inflictor, edict_t *attacker, int damage, ve
             // medics won't heal monsters that they kill themselves
             if (strcmp(attacker->classname, "monster_medic") == 0)
                 targ->owner = attacker;
+            OQuake2RTX_STAR_OnMonsterKilled(targ->classname);
         }
     }
 

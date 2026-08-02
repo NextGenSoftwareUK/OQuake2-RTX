@@ -16,6 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 #include "g_local.h"
+#include "oquake2rtx_ogengine_integration.h"
 
 bool        Pickup_Weapon(edict_t *ent, edict_t *other);
 void        Use_Weapon(edict_t *ent, const gitem_t *inv);
@@ -729,6 +730,25 @@ void Touch_Item(edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf)
     taken = ent->item->pickup(ent, other);
 
     if (taken) {
+        /* OASIS OGEngine integration */
+        if (ent->classname) {
+            const char *cn = ent->classname;
+            if (strstr(cn, "blue_key"))
+                OQuake2RTX_STAR_OnKeyPickup("blue_key");
+            else if (strstr(cn, "red_key"))
+                OQuake2RTX_STAR_OnKeyPickup("red_key");
+            else {
+                const char *itype = "Item";
+                if (strncmp(cn, "weapon_", 7) == 0) itype = "Weapon";
+                else if (strncmp(cn, "ammo_", 5) == 0) itype = "Ammo";
+                else if (strncmp(cn, "item_armor_", 11) == 0) itype = "Armor";
+                else if (strncmp(cn, "item_health", 11) == 0) itype = "Health";
+                OQuake2RTX_STAR_OnItemPickup(
+                    ent->item ? ent->item->pickup_name : cn,
+                    itype, 1, NULL);
+            }
+        }
+
         // flash the screen
         other->client->bonus_alpha = 0.25f;
 

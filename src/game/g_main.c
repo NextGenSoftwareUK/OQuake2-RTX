@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "g_local.h"
+#include "oquake2rtx_ogengine_integration.h"
 
 game_locals_t   game;
 level_locals_t  level;
@@ -98,6 +99,7 @@ void ShutdownGame(void)
 {
     gi.dprintf("==== ShutdownGame ====\n");
 
+    OQuake2RTX_STAR_Cleanup();
     gi.FreeTags(TAG_LEVEL);
     gi.FreeTags(TAG_GAME);
 }
@@ -210,6 +212,7 @@ void InitGame(void)
     game.maxclients = maxclients->value;
     game.clients = gi.TagMalloc(game.maxclients * sizeof(game.clients[0]), TAG_GAME);
     globals.num_edicts = game.maxclients + 1;
+    OQuake2RTX_STAR_Init();
 }
 
 /*
@@ -541,5 +544,6 @@ void G_RunFrame(void)
 
     // build the playerstate_t structures for all players
     ClientEndServerFrames();
+    OQuake2RTX_STAR_PollItems();
 }
 
