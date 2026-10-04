@@ -6,6 +6,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 SET(SRC_GAME
+	game/oquake2rtx_ogengine_integration.c
 	game/g_ai.c
 	game/g_chase.c
 	game/g_cmds.c
@@ -571,6 +572,10 @@ endif()
 
 TARGET_LINK_LIBRARIES(server z)
 TARGET_LINK_LIBRARIES(game z)
+# OASIS STAR: BUILD_OQUAKE2RTX.bat copies the integration sources and ogengine.lib into this tree.
+IF(WIN32)
+    TARGET_LINK_LIBRARIES(game "${CMAKE_SOURCE_DIR}/ogengine.lib")
+ENDIF()
 if(TARGET client)
     TARGET_LINK_LIBRARIES(client z)
 endif()

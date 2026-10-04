@@ -47,3 +47,10 @@ baseq2/**/*.txt
 !baseq2/*.txt
 !baseq2/maps/sky/*.txt
 !baseq2/pics/flashlight_profile.png
+
+# Copied in by OASIS BUILD_OQUAKE2RTX.bat
+/ogengine.lib
+/src/game/ogengine.h
+/src/game/ogengine_sync.h
+/src/game/oglib_*.h
+/src/game/oquake2rtx_ogengine_integration.[ch]
